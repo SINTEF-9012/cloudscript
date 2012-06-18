@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.modelbased.cloudscript</groupId>
+  <artifactId>net.modelbased.cloudscript.kernel</artifactId>
+  <name>CloudScript Kernel</name>
+  <description>
+    Kernel used by CloudScript
+  </description>
+  
+  
+  <parent>
+  	<groupId>net.modelbased</groupId>
+  	<artifactId>net.modelbased.cloudscript</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<relativePath>../net.modelbased.cloudscript</relativePath>
+  </parent>
+</project>
