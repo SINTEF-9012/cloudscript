@@ -31,6 +31,8 @@ import net.modelbased.cloudscript.kernel._
 class Apt extends Service
 class War extends Service
 class Ssh extends Service
+class File extends Service
+
 
 /***********************
  ** Common Connectors **

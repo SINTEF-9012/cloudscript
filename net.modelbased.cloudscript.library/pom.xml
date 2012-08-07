@@ -19,6 +19,11 @@
   		<artifactId>net.modelbased.cloudscript.kernel</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>net.modelbased.cloudscript</groupId>
+  		<artifactId>net.modelbased.cloudscript.dsl</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>
 

@@ -4,7 +4,7 @@
  * Copyright (C) 2011-  SINTEF ICT
  * Contact: Sebastien Mosser <sebastien.mosser@sintef.no>
  *
- * Module: net.modelbased.cloudscript.kernel
+ * Module: net.modelbased.cloudscript.samples
  *
  * CloudScript is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -20,6 +20,30 @@
  * Public License along with CloudScript. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package net.modelbased.cloudscript.kernel
+package net.modelbased.cloudscript.samples.sensapp
 
-class Property[T](var data: T) {}
+import net.modelbased.cloudscript.dsl._
+import net.modelbased.cloudscript.library._
+
+import net.modelbased.cloudscript.samples.sensapp.platform.MonolithicHost
+
+class SensAppSystem extends CompositeComponent {
+  // internal components
+  val host = instantiates[MonolithicHost]
+  val system = instantiates[SensApp]
+  // Deployment binding
+  this deploys system.ssh on host.ssh
+  // Property binding
+  this sets system.hostPath using host.deploymentPath
+}
+
+
+class SensApp extends WarFileComponent {
+  val file = new java.net.URL("http://github.com/downloads/SINTEF-9012/sensapp/sensapp.war")
+}
+
+
+trait WarFileComponent extends SshExpectation {
+  val file: java.net.URL
+  val hostPath = expectsProperty[String]
+}
