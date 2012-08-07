@@ -1,3 +1,5 @@
 .metadata/
 sandbox/
 .cache
+
+/examples.java/target/

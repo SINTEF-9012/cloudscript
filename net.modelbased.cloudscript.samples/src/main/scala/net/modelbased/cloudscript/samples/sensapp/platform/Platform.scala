@@ -22,13 +22,13 @@
  */
 package net.modelbased.cloudscript.samples.sensapp.platform
 
+import scala.collection.JavaConversions._
 import net.modelbased.cloudscript.dsl._
 import net.modelbased.cloudscript.library._
-
 import net.modelbased.cloudscript.samples.sensapp.infrastructure._
 
 
-class MonolithicHost extends CompositeComponent with SshOffering {
+class MonolithicHost extends CompositeComponent {
   // Internal components
   private[this] val vm = instantiates[SmallVM]
   private[this] val db = instantiates[MongoDataBase]
@@ -37,31 +37,26 @@ class MonolithicHost extends CompositeComponent with SshOffering {
   // Properties
   val deploymentPath = externalize(server.targetPath)
   // Deployment binding
-  this deploys db.apt on vm.apt
-  this deploys jvm.apt on vm.apt
+  this deploys db.ssh on vm.ssh
+  this deploys jvm.ssh on vm.ssh
   this deploys server.ssh on vm.ssh
   // port promotion
-  override val ssh = promotes(vm.ssh)
+  val ssh = promotes(vm.ssh)
 }
 
-// Virtual machines used to host a SensApp instance
+// Virtual machines used to host a SensApp instance 
 class MicroVM extends VirtualMachine { val name = "sensapp_host_micro"; val instType = amazon.InstanceTypes.Micro }
 class SmallVM extends VirtualMachine { val name = "sensapp_host_small"; val instType = amazon.InstanceTypes.Small }
 
-// MongoDB database (persistence support)
-class MongoDataBase extends AptExpectation { 
-  val packages = List("mongodb")  // --> sudo apt-get install mongodb 
-}
-
-class JavaVM extends AptExpectation {
-  val packages = List("openjdk-7-jre") // --> sudo apt-get install openjdk-7-jre 
-}
+// MongoDB database (persistence support) & JVM 
+class MongoDataBase extends AptExpectation { val packages = List("mongodb") }
+class JavaVM extends AptExpectation { val packages = List("openjdk-7-jre") }
 
 // Jetty  server (execution environment)
 class JettyServer extends FileDownload with StartupCommand {
   val sourceFile = new java.net.URL("http://download.eclipse.org/jetty/stable-8/dist/jetty-distribution-8.1.5.v20120716.tar.gz")
   val targetPath = hasForProperty[String]
-  targetPath.data = "/opt/jetty8" 
+  targetPath.data = "/opt/jetty8/webapps" 
     
   val file_deploy_commands = List("tar zxvf /tmp/jetty-distribution-8.1.5.v20120716.tar.gz", 
       "sudo mv /tmp/jetty-distribution-8.1.5.v20120716 /opt/jetty-distribution-8.1.5.v20120716", 
@@ -71,7 +66,7 @@ class JettyServer extends FileDownload with StartupCommand {
 
 
 // An EC2 virtual machine, located in Dublin and running an ubuntu 12.04 LTS OS
-protected abstract class VirtualMachine extends amazon.EC2VirtualMachine with SshOffering with AptOffering with InitCommands with BashSetup {
+protected abstract class VirtualMachine extends amazon.EC2VirtualMachine with SshOffering with InitCommands with BashSetup {
   val ami = amazon.AMIs.UbuntuLTS
   val region = amazon.Regions.Ireland
   val bashrc = List("export LANGUAGE=en_US.UTF-8", "export LANG=en_US.UTF-8", "export LC_ALL=en_US.UTF-8")

@@ -22,33 +22,5 @@
  */
 package net.modelbased.cloudscript.kernel
 
- abstract class Connector[From <: Service, To <: Service] {
-  var from: From = _
-  var to: To = _
-}
-
-abstract class StraightConnector[S <: Service] extends Connector[S,S]
-
-
-object Connector {
-  type Key = (Class[_], Class[_])
-  type Value = Class[Connector[_,_]]
-  
-  private var _mappings: Map[Key, Value] = Map[Key, Value]()
-  
-  def register[C <: Connector[_,_]](implicit manifest: Manifest[C]) {
-    val from = manifest.erasure.getField("from").getClass()
-    val to = manifest.erasure.getField("to").getClass()
-    val value = manifest.erasure.asInstanceOf[Value]
-    _mappings += (from, to) -> value
-  }
-  
-  def apply(from: Service, to: Service): 
-	  	Option[Connector[_,_]] = {
-    _mappings.getOrElse((from.getClass(),to.getClass()), None) match {
-      case c: Connector[_,_] => Some(c)
-      case None => None
-    }
-  }
-  
+class Connector[From <: Service, To <: Service](val from: From, val to: To) {
 }

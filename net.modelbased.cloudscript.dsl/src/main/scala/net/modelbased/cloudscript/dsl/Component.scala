@@ -31,14 +31,16 @@ import net.modelbased.cloudscript.kernel.{Property => KProperty}
 
 abstract trait ScalarComponent extends KScalar 
 	with ServiceOffering with ServiceExpectation 
-	with PropertyOffering with PropertyExpectation
+	with PropertyOffering with PropertyExpectation with UUID
 	
 abstract trait CompositeComponent extends KComposite
 	with ServiceExpectation with ComponentContainment with ServicePromotion
 	with ServiceConnection with PropertyOffering with PropertyExpectation
-	with PropertyConnection with PropertyPromotion
+	with PropertyConnection with PropertyPromotion with UUID
 
-	
+protected trait UUID extends KComponent {
+  def hasForUUID(s: String) { this.uuid = s }
+}
 protected trait ServiceOffering extends KScalar {
     def offers[S <: KService](implicit m: Manifest[S]): S = {
     val service = m.erasure.newInstance.asInstanceOf[S]
@@ -77,13 +79,7 @@ protected trait ServiceConnection extends KComposite {
   }
   sealed class ConnectionSource(val owner: KComposite, source: KService) {
     def on(target: KService) = {
-      val opt: Option[KConnector[_,_]] = KConnector(source, target)
-      opt match {
-        case None => throw new RuntimeException("No available Connector!")
-        case c: KConnector[_,_] => {
-          owner.addConnector(c)
-        }
-      }
+      owner.addConnector(new KConnector(source, target))     
     }
   }
 }

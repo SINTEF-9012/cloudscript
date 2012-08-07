@@ -22,8 +22,11 @@
  */
 package net.modelbased.cloudscript.kernel
 
-trait Component {
+import scala.collection.JavaConversions._
+import java.util.UUID
 
+trait Component {
+  
   private[this] var _owner: Component = _
   def owner = _owner
   def owner_=(c: Component) { this._owner = c }
@@ -33,7 +36,7 @@ trait Component {
   def expected_=(s: Service) { this._expected = s }
   
   private[this] var _offereds: List[Service] = List[Service]()
-  def offereds = _offereds.reverse
+  def offereds: java.util.List[Service] = _offereds.reverse
   def addOffering(srv: Service) { _offereds = srv :: _offereds }
  
   private[this] var _expectedProperties: List[Property[_]] = List[Property[_]]()
@@ -43,6 +46,12 @@ trait Component {
   private[this] var _offeredProperties: List[Property[_]] = List[Property[_]]()
   def offeredProperties = _offeredProperties
   def addPropertyOffering(p: Property[_]) { _offeredProperties = p :: _offeredProperties} 
+  
+  private[this] var _uuid: String = java.util.UUID.randomUUID.toString
+  def uuid = _uuid
+  def uuid_=(s: String) { _uuid = s }
+  
+  override def toString(): String = uuid + "#" + this.getClass().getCanonicalName()
 }
 
 trait ScalarComponent extends Component {}
@@ -50,15 +59,15 @@ trait ScalarComponent extends Component {}
 trait CompositeComponent extends Component {
   
   private[this] var _containeds: List[Component] = List[Component]()
-  def containeds = _containeds.reverse
+  def containeds: java.util.List[Component]  = _containeds.reverse
   def addContainment(c: Component) { _containeds = c :: _containeds }
   
   private[this] var _connectors: List[Connector[_,_]] = List[Connector[_,_]]()
-  def connectors = _connectors.reverse
+  def connectors: java.util.List[Connector[_,_]] = _connectors.reverse
   def addConnector(c: Connector[_,_]) { _connectors = c :: _connectors }
   
   private[this] var _propertyBinding: List[(Property[_],Property[_])] = List[(Property[_],Property[_])]()
-  def propertyBindings = _propertyBinding.reverse
+  def propertyBindings: java.util.List[(Property[_],Property[_])]  = _propertyBinding.reverse
   def addPropertyBinding[T](source: Property[T], target: Property[T]) {
     _propertyBinding = (source,target) :: _propertyBinding
   }

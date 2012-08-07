@@ -38,18 +38,18 @@ class File extends Service
  ** Common Connectors **
  ***********************/
 
-class AptConnector extends StraightConnector[Apt] 
-class WarConnector extends StraightConnector[War]
+//class AptConnector extends StraightConnector[Apt] 
+//class WarConnector extends StraightConnector[War]
 
-class Apt2SshConnector extends Connector[Ssh, Apt]
+//class Apt2SshConnector extends Connector[Ssh, Apt]
 /*******************************************************
  * Initializer to register Connectors in the registry **
  *******************************************************/
-
+/*
 object Initializer {
   Connector.register[Apt2SshConnector]
   Connector.register[AptConnector]
   Connector.register[WarConnector]
 }
-
+*/
 

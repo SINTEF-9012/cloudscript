@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>net.modelbased.cloudscript</groupId>
+  <artifactId>examples.java</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>examples.java</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+<repositories>
+<repository>
+    <id>SINTEF-9012</id>
+    <name>snapshots</name>
+    <url>https://repository-sintef.forge.cloudbees.com/snapshot/</url>
+  </repository> 
+</repositories>
+
+  <dependencies>
+    <dependency>
+    <groupId>net.modelbased.cloudscript</groupId>
+    <artifactId>net.modelbased.cloudscript.dsl</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </dependency>
+  <dependency>
+    <groupId>net.modelbased.cloudscript</groupId>
+    <artifactId>net.modelbased.cloudscript.library</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </dependency>
+  <dependency>
+    <groupId>net.modelbased.cloudscript</groupId>
+    <artifactId>net.modelbased.cloudscript.samples</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </dependency>
+  </dependencies>
+</project>

@@ -29,21 +29,19 @@ import net.modelbased.cloudscript.samples.sensapp.platform.MonolithicHost
 
 class SensAppSystem extends CompositeComponent {
   // internal components
-  val host = instantiates[MonolithicHost]
-  val system = instantiates[SensApp]
+  val host = instantiates[MonolithicHost]; host hasForUUID "sensapp-host"
+  val system = instantiates[SensApp]; system hasForUUID "sensapp-system"
   // Deployment binding
   this deploys system.ssh on host.ssh
   // Property binding
   this sets system.hostPath using host.deploymentPath
 }
 
-
 class SensApp extends WarFileComponent {
   val file = new java.net.URL("http://github.com/downloads/SINTEF-9012/sensapp/sensapp.war")
 }
 
-
-trait WarFileComponent extends SshExpectation {
-  val file: java.net.URL
-  val hostPath = expectsProperty[String]
+object Main extends App {
+  val software = new SensAppSystem
+  println(software.system.expected)
 }

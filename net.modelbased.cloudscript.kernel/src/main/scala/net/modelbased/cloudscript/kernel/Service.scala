@@ -24,4 +24,5 @@ package net.modelbased.cloudscript.kernel
 
 abstract class Service {
 
+  override def toString: String = "Service[" + this.getClass().getCanonicalName() + "]"
 }
