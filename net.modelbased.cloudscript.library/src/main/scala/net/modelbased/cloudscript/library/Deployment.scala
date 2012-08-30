@@ -40,9 +40,10 @@ trait FileDownload extends SshOffering {
   def deployAsBash: String = file_deploy_commands.mkString("#!/bin/bash\n","\n","\n") 
 }
 
+/*
 trait WarFileBasedDeployment extends SshOffering {
   val deployPath : net.modelbased.cloudscript.kernel.Property[String]
-}
+} */
 
 trait WarFileComponent extends SshExpectation {
   val file: java.net.URL

@@ -22,5 +22,6 @@
  */
 package net.modelbased.cloudscript.kernel
 
-class Connector[From <: Service, To <: Service](val from: From, val to: To) {
-}
+//class Connector[From <: Service, To <: Service](val from: From, val to: To)
+
+class Connector(val from: Service, val to: Service)

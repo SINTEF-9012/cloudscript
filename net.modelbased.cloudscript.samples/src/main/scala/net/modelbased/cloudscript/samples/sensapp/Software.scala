@@ -24,6 +24,7 @@ package net.modelbased.cloudscript.samples.sensapp
 
 import net.modelbased.cloudscript.dsl._
 import net.modelbased.cloudscript.library._
+import scala.collection.JavaConversions._
 
 import net.modelbased.cloudscript.samples.sensapp.platform.MonolithicHost
 
@@ -42,6 +43,29 @@ class SensApp extends WarFileComponent {
 }
 
 object Main extends App {
+  import net.modelbased.cloudscript.kernel._
   val software = new SensAppSystem
-  println(software.system.expected)
+  descrComponent(software)
+  //software.containeds foreach { c => descrComponent(c) }
+  
+  def descrComponent(c: Component) {
+    println("Component: " + c)
+    c.offereds foreach { s => println("  offers " + s ) }
+    
+    println("  expects " + (if (c.expected == null) "nothing" else c.expected))
+    c match {
+      case c: CompositeComponent => {
+        println("  contains" + c.containeds.map { _.toString }.mkString("[",", ","]"))
+        c.connectors foreach { c => 
+          println("  connects: ")
+          println("    from: " + c.from.offeredBy + "[" + c.from + "]")
+          println("    to:   " + c.to.offeredBy + "[" + c.to + "]")
+        }
+        c.containeds foreach { descrComponent(_) }
+      }
+      case _ => 
+    }
+  } 
+  
+  
 }

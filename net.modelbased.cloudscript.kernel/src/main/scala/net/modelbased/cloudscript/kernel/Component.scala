@@ -62,9 +62,9 @@ trait CompositeComponent extends Component {
   def containeds: java.util.List[Component]  = _containeds.reverse
   def addContainment(c: Component) { _containeds = c :: _containeds }
   
-  private[this] var _connectors: List[Connector[_,_]] = List[Connector[_,_]]()
-  def connectors: java.util.List[Connector[_,_]] = _connectors.reverse
-  def addConnector(c: Connector[_,_]) { _connectors = c :: _connectors }
+  private[this] var _connectors: List[Connector] = List[Connector]()
+  def connectors: java.util.List[Connector] = _connectors.reverse
+  def addConnector(c: Connector) { _connectors = c :: _connectors }
   
   private[this] var _propertyBinding: List[(Property[_],Property[_])] = List[(Property[_],Property[_])]()
   def propertyBindings: java.util.List[(Property[_],Property[_])]  = _propertyBinding.reverse

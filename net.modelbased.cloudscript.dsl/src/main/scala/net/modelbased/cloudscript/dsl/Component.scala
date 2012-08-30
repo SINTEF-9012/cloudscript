@@ -45,6 +45,7 @@ protected trait ServiceOffering extends KScalar {
     def offers[S <: KService](implicit m: Manifest[S]): S = {
     val service = m.erasure.newInstance.asInstanceOf[S]
     addOffering(service) 
+    service.offeredBy = this
     service
   }
 }
@@ -53,6 +54,7 @@ protected trait ServiceExpectation extends KComponent {
   def expects[S <: KService](implicit m: Manifest[S]): S = {
     val service = m.erasure.newInstance.asInstanceOf[S]
     this.expected = service
+    service.offeredBy = this
     service
   }
 }

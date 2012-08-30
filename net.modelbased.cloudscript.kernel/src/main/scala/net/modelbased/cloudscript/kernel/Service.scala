@@ -23,6 +23,7 @@
 package net.modelbased.cloudscript.kernel
 
 abstract class Service {
-
+  var offeredBy: Component = _
   override def toString: String = "Service[" + this.getClass().getCanonicalName() + "]"
+  
 }
