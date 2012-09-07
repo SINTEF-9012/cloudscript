@@ -54,6 +54,12 @@ trait StartupCommand extends SshOffering {
   val startup_commands: List[String]
   def startupAsBash: String = startup_commands.mkString("#!/bin/bash\n","\n","\n") 
 }
+
+trait EndingCommand extends SshOffering { 
+  val ending_commands: List[String]
+  def endingAsBash: String = ending_commands.mkString("#!/bin/bash\n","\n","\n") 
+}
+
 trait InitCommands extends SshOffering { 
   val init_setup: List[String] 
   def initAsBash: String = init_setup.mkString("#!/bin/bash\n","\n","\n") 
